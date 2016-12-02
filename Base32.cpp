@@ -5,7 +5,7 @@
 
 #include "Base32.h"
 
-int Base32::GetEncode32Length(int bytes)
+int ICACHE_FLASH_ATTR Base32::GetEncode32Length(int bytes)
 {
    int bits = bytes * 8;
    int length = bits / 5;
@@ -16,17 +16,17 @@ int Base32::GetEncode32Length(int bytes)
    return length;
 }
 
-int Base32::GetDecode32Length(int bytes)
+int ICACHE_FLASH_ATTR Base32::GetDecode32Length(int bytes)
 {
    int bits = bytes * 5;
    int length = bits / 8;
    return length;
 }
 
-static bool Encode32Block(unsigned char* in5, unsigned char* out8)
+static bool ICACHE_FLASH_ATTR Encode32Block(unsigned char* in5, unsigned char* out8)
 {
       // pack 5 bytes
-      unsigned __int64 buffer = 0;
+      unsigned long long int buffer = 0;
       for(int i = 0; i < 5; i++)
       {
 		  if(i != 0)
@@ -48,7 +48,7 @@ static bool Encode32Block(unsigned char* in5, unsigned char* out8)
 	  return true;
 }
 
-bool Base32::Encode32(unsigned char* in, int inLen, unsigned char* out)
+bool ICACHE_FLASH_ATTR Base32::Encode32(unsigned char* in, int inLen, unsigned char* out)
 {
    if((in == 0) || (inLen <= 0) || (out == 0)) return false;
 
@@ -75,10 +75,10 @@ bool Base32::Encode32(unsigned char* in, int inLen, unsigned char* out)
    return true;
 }
 
-static bool Decode32Block(unsigned char* in8, unsigned char* out5)
+static bool ICACHE_FLASH_ATTR Decode32Block(unsigned char* in8, unsigned char* out5)
 {
       // pack 8 bytes
-      unsigned __int64 buffer = 0;
+      unsigned long long int buffer = 0;
       for(int i = 0; i < 8; i++)
       {
 		  // input check
@@ -97,7 +97,7 @@ static bool Decode32Block(unsigned char* in8, unsigned char* out5)
 	  return true;
 }
 
-bool Base32::Decode32(unsigned char* in, int inLen, unsigned char* out)
+bool ICACHE_FLASH_ATTR Base32::Decode32(unsigned char* in, int inLen, unsigned char* out)
 {
    if((in == 0) || (inLen <= 0) || (out == 0)) return false;
 
@@ -124,7 +124,7 @@ bool Base32::Decode32(unsigned char* in, int inLen, unsigned char* out)
    return true;
 }
 
-bool Base32::Map32(unsigned char* inout32, int inout32Len, unsigned char* alpha32)
+bool ICACHE_FLASH_ATTR Base32::Map32(unsigned char* inout32, int inout32Len, unsigned char* alpha32)
 {
 	if((inout32 == 0) || (inout32Len <= 0) || (alpha32 == 0)) return false;
 	for(int i = 0; i < inout32Len; i++)
@@ -132,10 +132,11 @@ bool Base32::Map32(unsigned char* inout32, int inout32Len, unsigned char* alpha3
 		if(inout32[i] >=32) return false;
 		inout32[i] = alpha32[inout32[i]];
 	}
+	inout32[inout32Len] = '\0';
 	return true;
 }
 
-static void ReverseMap(unsigned char* inAlpha32, unsigned char* outMap)
+static void ICACHE_FLASH_ATTR ReverseMap(unsigned char* inAlpha32, unsigned char* outMap)
 {
 	memset(outMap, 0, sizeof(unsigned char) * 256);
 	for(int i = 0; i < 32; i++)
@@ -144,7 +145,7 @@ static void ReverseMap(unsigned char* inAlpha32, unsigned char* outMap)
 	}
 }
 
-bool Base32::Unmap32(unsigned char* inout32, int inout32Len, unsigned char* alpha32)
+bool ICACHE_FLASH_ATTR Base32::Unmap32(unsigned char* inout32, int inout32Len, unsigned char* alpha32)
 {
 	if((inout32 == 0) || (inout32Len <= 0) || (alpha32 == 0)) return false;
 	unsigned char rmap[256];

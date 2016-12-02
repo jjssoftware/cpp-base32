@@ -5,7 +5,8 @@
 #if !defined(_BASE32_H_)
 #define _BASE32_H_
 
-#include <string.h>
+#include <Arduino.h>
+
 
 /*
 	Base32 encoding / decoding.
@@ -20,14 +21,14 @@
 
 struct Base32
 {
-	static bool Decode32(unsigned char* in, int inLen, unsigned char* out);
-	static bool Encode32(unsigned char* in, int inLen, unsigned char* out);
+	static bool ICACHE_FLASH_ATTR Decode32(unsigned char* in, int inLen, unsigned char* out);
+	static bool ICACHE_FLASH_ATTR Encode32(unsigned char* in, int inLen, unsigned char* out);
 
-	static int  GetDecode32Length(int bytes);
-	static int  GetEncode32Length(int bytes);
+	static int ICACHE_FLASH_ATTR GetDecode32Length(int bytes);
+	static int ICACHE_FLASH_ATTR GetEncode32Length(int bytes);
 
-	static bool Map32(unsigned char* inout32, int inout32Len, unsigned char* alpha32);
-	static bool Unmap32(unsigned char* inout32, int inout32Len, unsigned char* alpha32);
+	static bool ICACHE_FLASH_ATTR Map32(unsigned char* inout32, int inout32Len, unsigned char* alpha32);
+	static bool ICACHE_FLASH_ATTR Unmap32(unsigned char* inout32, int inout32Len, unsigned char* alpha32);
 };
 
 #endif
